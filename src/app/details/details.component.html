@@ -1,0 +1,60 @@
+
+<form (submit)="onSubmit()" class="detail" [formGroup]="detailsFG">
+  <mat-progress-bar *ngIf="progflag" mode="indeterminate" value="40"></mat-progress-bar>
+
+
+<div class="cont1"><div><mat-form-field>
+  <mat-label>Identifier</mat-label>
+  <input matInput
+         formControlName = "id"
+         placeholder = "input Identifier"
+         required/>
+  <!--<mat-error>{{getNameError()}}</mat-error>-->
+</mat-form-field>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput
+           formControlName = "name"
+           id="name"
+           placeholder = "input name"
+           required
+           (click)="see()"
+    />
+
+    <mat-error *ngIf="detailsFG.get('name').errors?.required">{{getNameError("required")}}</mat-error>
+    <mat-error *ngIf="detailsFG.get('name').errors?.maxlength">{{getNameError("maxlength")}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea matInput
+              formControlName = "description"
+              placeholder = "input description"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Amount</mat-label>
+    <input matInput
+           formControlName = "amount"
+           id="amount"
+           placeholder = "input amount"
+           required
+           (click)="see()"/>
+    <mat-error *ngIf="detailsFG.get('amount').errors?.maxlength">{{getAmountError("maxlength")}}</mat-error>
+    <mat-error *ngIf="detailsFG.get('amount').errors?.pattern">{{getAmountError("pattern")}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field (click)="see()">
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="date">
+    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+    <mat-datepicker #picker ></mat-datepicker>
+  </mat-form-field>
+
+  <mat-checkbox (click)="see()" [formControlName]="'priv'"  color="primary"
+                >Private</mat-checkbox>
+
+
+
+  <button type="submit" mat-raised-button color="primary" [disabled]="detailsFG.invalid">Submit</button>
+  <button type="reset" mat-raised-button color="primary">Reset</button>
+  <button type="button" style="margin-bottom: 10px" (click)="cancelAction()"mat-raised-button color="primary">Cancel</button>
+</div></div>
+</form>

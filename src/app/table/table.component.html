@@ -1,0 +1,87 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div class="detail">
+<mat-form-field style="margin-left: 10px;margin-top: 10px">
+  <input  matInput (input)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+<mat-table *ngIf="contacts.data[0]!=undefined" [dataSource]="contacts" matSort multiTemplateDataRows class="mat-elevation-z8">
+
+  <ng-container matColumnDef="expand" >
+    <td mat-cell *matCellDef="let obj" [attr.colspan]="displayedColumns.length"
+       >
+      <div class="example-element-detail"
+           [@detailExpand]="obj == expandedElement ? 'expanded' : 'collapsed'"
+       >
+        <div class="example-element-diagram">
+        <p>Id: {{obj.id}}</p>
+        <p>Name: {{obj.name}}</p>
+        <p>Description: {{obj.description}}</p>
+        <p>Amount: {{obj.amount}}</p>
+        <p>Date: {{obj.date | date:'MM/d/yyyy'}}</p>
+        <p>Private: {{obj.priv}}</p>
+        </div>
+
+      </div>
+    </td>
+  </ng-container>
+
+  <!--<ng-container matColumnDef="select">-->
+    <!--<mat-header-cell *matHeaderCellDef></mat-header-cell>-->
+    <!--<mat-cell *matCellDef="let obj">-->
+      <!--<mat-checkbox [checked]="check(obj)"-->
+                    <!--color="primary" onchange="getInfo($event,obj)" -->
+                    <!--(click)="stopProp($event)"></mat-checkbox>-->
+    <!--</mat-cell>-->
+  <!--</ng-container>-->
+
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>id</mat-header-cell>
+    <mat-cell *matCellDef="let obj">{{obj.id}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>name</mat-header-cell>
+    <mat-cell *matCellDef="let obj">{{obj.name}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
+    <mat-cell *matCellDef="let obj">{{obj.description}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="amount">
+    <mat-header-cell *matHeaderCellDef>amount</mat-header-cell>
+    <mat-cell *matCellDef="let obj">{{obj.amount}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef>date</mat-header-cell>
+    <mat-cell *matCellDef="let obj">{{obj.date | date:'MM/d/yyyy'}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="isPrivate">
+    <mat-header-cell *matHeaderCellDef>Private</mat-header-cell>
+    <mat-cell *matCellDef="let obj">{{obj.priv}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row class="pointer" *matRowDef="let row; columns: displayedColumns;"
+
+           (click)="getInfo(row)"
+
+
+           (click) = "expandedRow = expandedRow == row ? null : row"></mat-row>
+  <mat-row *matRowDef="let row; columns: ['expand']" class = 'expanded'
+           [@detailExpand]="expandedRow == row ? 'open' : 'closed'"></mat-row>
+
+</mat-table>
+
+<mat-paginator #paginator
+               [pageSize]="4"
+               [pageSizeOptions]="[4,8,12]"
+               [showFirstLastButtons]="true"></mat-paginator>
+  <div class="cont1">
+<button mat-raised-button color="primary" style="margin-right: 10px" (click)="addContact()">Add contact</button>
+<button mat-raised-button color="primary" (click)="editContact()" style="margin-right: 10px"
+        [disabled]="selectedCB == 0">Edit contact</button>
+<button mat-raised-button color="accent" (click)="removeContact()"
+        [disabled]="selectedCB ==0">Remove contact</button>
+  </div>
+</div>
